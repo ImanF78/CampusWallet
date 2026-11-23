@@ -1,0 +1,75 @@
+
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="28dp"
+    android:background="#102B42">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="💳"
+        android:textSize="65sp"
+        android:layout_marginBottom="24dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Campus Wallet"
+        android:textColor="#FFFFFF"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="10dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Your money, your control."
+        android:textColor="#67D6B0"
+        android:textSize="19sp"
+        android:textStyle="bold"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Manage your finances smarter."
+        android:textColor="#FFFFFF"
+        android:textSize="17sp"
+        android:gravity="center"
+        android:layout_marginBottom="12dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Track your spending, plan your budget and achieve your savings goals."
+        android:textColor="#C5D8E5"
+        android:textSize="15sp"
+        android:gravity="center"
+        android:lineSpacingExtra="5dp"
+        android:layout_marginBottom="35dp" />
+
+    <Button
+        android:id="@+id/getStartedButton"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:text="Get Started"
+        android:textColor="#102B42"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:backgroundTint="#67D6B0" />
+
+    <TextView
+        android:id="@+id/loginText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Log in"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:layout_marginTop="25dp"
+        android:padding="10dp" />
+
+</LinearLayout>

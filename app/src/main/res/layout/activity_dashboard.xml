@@ -1,0 +1,164 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F3F6FA">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="CampusWallet"
+                android:textSize="25sp"
+                android:textStyle="bold"
+                android:textColor="#17365D"/>
+
+            <Button
+                android:id="@+id/logoutButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Logout"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/welcomeStudent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hello, Student!"
+            android:textSize="21sp"
+            android:textStyle="bold"
+            android:textColor="#17365D"
+            android:layout_marginTop="20dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Here's an overview of your money."
+            android:textColor="#526174"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="18dp"/>
+
+        <TextView
+            android:id="@+id/incomeText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Income&#10;KSh 0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#176B48"
+            android:background="#E3F4EA"
+            android:padding="18dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/expenseText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Expenses&#10;KSh 0.00"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="#A33B3B"
+            android:background="#FBEAEA"
+            android:padding="18dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/balanceText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Available Balance&#10;KSh 0.00"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#17365D"
+            android:background="#E4ECF7"
+            android:padding="18dp"
+            android:layout_marginBottom="22dp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Monthly Budget"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#17365D"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set how much you plan to spend this month."
+            android:textColor="#526174"
+            android:layout_marginTop="5dp"/>
+
+        <EditText
+            android:id="@+id/budgetInput"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter budget in KSh"
+            android:inputType="numberDecimal"
+            android:padding="12dp"/>
+
+        <Button
+            android:id="@+id/saveBudgetButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Save Budget"
+            android:backgroundTint="#17365D"/>
+
+        <ProgressBar
+            android:id="@+id/budgetProgress"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="14dp"
+            android:max="100"
+            android:progress="0"
+            android:layout_marginTop="16dp"/>
+
+        <TextView
+            android:id="@+id/budgetInfo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Set a monthly budget to track your spending progress."
+            android:textColor="#526174"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="20dp"/>
+
+        <Button
+            android:id="@+id/addTransactionButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="+ Add Income or Expense"
+            android:backgroundTint="#17365D"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Transaction History"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#17365D"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/historyText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No transactions yet."
+            android:textColor="#344054"
+            android:background="#FFFFFF"
+            android:padding="16dp"/>
+
+    </LinearLayout>
+</ScrollView>

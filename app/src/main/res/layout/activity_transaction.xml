@@ -1,0 +1,79 @@
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:padding="25dp"
+    android:background="#F3F6FA">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add Transaction"
+        android:textSize="26sp"
+        android:textStyle="bold"
+        android:textColor="#17365D"
+        android:gravity="center"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Record money coming in or money you spend. This helps keep your balance accurate."
+        android:textColor="#526174"
+        android:gravity="center"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Choose transaction type"
+        android:textStyle="bold"
+        android:textColor="#17365D"/>
+
+    <Button
+        android:id="@+id/incomeOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Income"/>
+
+    <Button
+        android:id="@+id/expenseOption"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Expense"/>
+
+    <EditText
+        android:id="@+id/transactionAmount"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Amount in KSh"
+        android:inputType="numberDecimal"
+        android:padding="14dp"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/transactionCategory"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Category e.g. Food, Transport, Allowance"
+        android:inputType="textCapSentences"
+        android:padding="14dp"/>
+
+    <Button
+        android:id="@+id/submitTransaction"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Transaction"
+        android:layout_marginTop="18dp"
+        android:backgroundTint="#17365D"/>
+
+    <TextView
+        android:id="@+id/backToDashboard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Back to Dashboard"
+        android:textColor="#17365D"
+        android:padding="18dp"/>
+</LinearLayout>
