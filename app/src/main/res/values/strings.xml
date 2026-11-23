@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">CampusWallet</string>
+    <string name="login_welcome">Welcome Back!</string>
+    <string name="login_subtitle">Log in to check your balance and keep your finances on track.</string>
 </resources>
