@@ -1,4 +1,4 @@
-
+<!-- Root container: a vertical layout that centres the registration form on the screen -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -7,6 +7,9 @@
     android:padding="25dp"
     android:background="#F3F6FA">
 
+    <!-- ===== HEADER SECTION ===== -->
+
+    <!-- Screen title, centred and bold -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -16,6 +19,7 @@
         android:textColor="#17365D"
         android:gravity="center"/>
 
+    <!-- Subtitle explaining the purpose of the app; margins add space above and below -->
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,6 +29,9 @@
         android:layout_marginTop="10dp"
         android:layout_marginBottom="22dp"/>
 
+    <!-- ===== REGISTRATION FORM FIELDS ===== -->
+
+    <!-- Input for the student's full name -->
     <EditText
         android:id="@+id/studentName"
         android:layout_width="match_parent"
@@ -33,6 +40,7 @@
         android:inputType="textPersonName"
         android:padding="14dp"/>
 
+    <!-- Input for the student's email address; the keyboard shows the @ symbol for easy typing -->
     <EditText
         android:id="@+id/studentEmail"
         android:layout_width="match_parent"
@@ -41,6 +49,7 @@
         android:inputType="textEmailAddress"
         android:padding="14dp"/>
 
+    <!-- Password input; characters are hidden as the user types. The hint states the minimum length rule -->
     <EditText
         android:id="@+id/studentPassword"
         android:layout_width="match_parent"
@@ -49,6 +58,9 @@
         android:inputType="textPassword"
         android:padding="14dp"/>
 
+    <!-- ===== ACTIONS ===== -->
+
+    <!-- Submits the form to create the new account -->
     <Button
         android:id="@+id/registerButton"
         android:layout_width="match_parent"
@@ -57,6 +69,7 @@
         android:layout_marginTop="18dp"
         android:backgroundTint="#17365D"/>
 
+    <!-- Link-style text for users who already have an account; clicking it should open the login screen -->
     <TextView
         android:id="@+id/goToLogin"
         android:layout_width="wrap_content"
