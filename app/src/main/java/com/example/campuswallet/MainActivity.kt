@@ -34,7 +34,7 @@ class MainActivity : AppCompatActivity() {
         database = Room.databaseBuilder(
             applicationContext,
             CampusWalletDatabase::class.java,
-            "campus_wallet_database"
+            CampusWalletDatabase.DATABASE_NAME
         )
             .addMigrations(CampusWalletDatabase.MIGRATION_1_2)
             .build()

@@ -6,6 +6,9 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+/**
+ * Main Room Database configuration for CampusWallet application.
+ */
 @Database(
     entities = [Transaction::class, User::class],
     version = 2,
@@ -18,6 +21,8 @@ abstract class CampusWalletDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
+        const val DATABASE_NAME = "campus_wallet_database"
+
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
 
