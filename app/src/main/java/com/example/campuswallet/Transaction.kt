@@ -15,5 +15,6 @@ data class Transaction(
     val type: String,
     val amount: Double,
     val category: String,
-    val userId: Int
+    val userId: Int,
+    val timestamp: Long = System.currentTimeMillis()
 )

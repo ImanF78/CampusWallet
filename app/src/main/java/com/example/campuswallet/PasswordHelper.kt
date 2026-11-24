@@ -25,18 +25,30 @@ object PasswordHelper {
             256
         )
 
-        val factory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA256")
-        val hash = factory.generateSecret(spec).encoded
+        return try {
+            val factory = SecretKeyFactory.getInstance(
+                "PBKDF2WithHmacSHA256"
+            )
 
-        return Base64.encodeToString(hash, Base64.NO_WRAP)
+            val hash = factory.generateSecret(spec).encoded
+
+            Base64.encodeToString(hash, Base64.NO_WRAP)
+        } finally {
+            spec.clearPassword()
+        }
     }
 
-    fun verifyPassword(password: String, salt: String, storedHash: String): Boolean {
+    fun verifyPassword(
+        password: String,
+        salt: String,
+        storedHash: String
+    ): Boolean {
+
         val newHash = hashPassword(password, salt)
 
         return MessageDigest.isEqual(
-            newHash.toByteArray(),
-            storedHash.toByteArray()
+            Base64.decode(newHash, Base64.NO_WRAP),
+            Base64.decode(storedHash, Base64.NO_WRAP)
         )
     }
 }
