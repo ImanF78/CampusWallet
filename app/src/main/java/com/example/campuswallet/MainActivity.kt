@@ -250,13 +250,8 @@ class MainActivity : AppCompatActivity() {
             val transactions = database.transactionDao()
                 .getTransactionsForUser(userId)
 
-            val totalIncome = transactions
-                .filter { it.type == "Income" }
-                .sumOf { it.amount }
-
-            val totalExpenses = transactions
-                .filter { it.type == "Expense" }
-                .sumOf { it.amount }
+            val totalIncome = database.transactionDao().getTotalIncome(userId)
+            val totalExpenses = database.transactionDao().getTotalExpenses(userId)
 
             val balance = totalIncome - totalExpenses
 
