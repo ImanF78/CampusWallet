@@ -7,12 +7,8 @@ import android.widget.EditText
 import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity() {
@@ -38,27 +34,13 @@ class MainActivity : AppCompatActivity() {
         database = Room.databaseBuilder(
             applicationContext,
             CampusWalletDatabase::class.java,
-            CampusWalletDatabase.DATABASE_NAME
+            "campus_wallet_database"
         )
-            .addMigrations(
-                CampusWalletDatabase.MIGRATION_1_2,
-                CampusWalletDatabase.MIGRATION_2_3
-            )
-            .fallbackToDestructiveMigration(true)
+            .addMigrations(CampusWalletDatabase.MIGRATION_1_2)
             .build()
 
         currentUserId = sessionPrefs.getInt("user_id", -1)
         currentUserName = sessionPrefs.getString("user_name", "") ?: ""
-
-        onBackPressedDispatcher.addCallback(this, object : OnBackPressedCallback(true) {
-            override fun handleOnBackPressed() {
-                if (currentUserId != -1) {
-                    showDashboard()
-                } else {
-                    finish()
-                }
-            }
-        })
 
         if (currentUserId != -1) {
             showDashboard()
@@ -255,14 +237,11 @@ class MainActivity : AppCompatActivity() {
 
             val balance = totalIncome - totalExpenses
 
-            val dateFormat = SimpleDateFormat("MMM dd, yyyy • HH:mm", Locale.getDefault())
-
             val history = if (transactions.isEmpty()) {
                 "No transactions yet. Add your first income or expense to get started."
             } else {
                 transactions.joinToString("\n\n") {
-                    val dateStr = dateFormat.format(Date(it.timestamp))
-                    "${it.type}: KSh ${"%.2f".format(it.amount)}\nCategory: ${it.category}\nDate: $dateStr"
+                    "${it.type}: KSh ${"%.2f".format(it.amount)}\nCategory: ${it.category}"
                 }
             }
 
@@ -289,15 +268,16 @@ class MainActivity : AppCompatActivity() {
 
                     val remaining = monthlyBudget - totalExpenses
                     if (remaining < 0) {
-                        budgetInfo.text = "⚠️ Over budget by KSh ${"%.2f".format(-remaining)}!\n" +
-                                "Total Spent: KSh ${"%.2f".format(totalExpenses)} / Budget: KSh ${"%.2f".format(monthlyBudget)}"
+                        budgetInfo.text = "⚠️ Warning: You have exceeded your monthly budget by KSh ${"%.2f".format(-remaining)}!"
+                        budgetInfo.setTextColor(android.graphics.Color.RED)
                     } else {
-                        budgetInfo.text = "You've used ${percentage}% of your monthly budget.\n" +
-                                "KSh ${"%.2f".format(remaining)} remaining in your budget."
+                        budgetInfo.text = "You've used ${percentage}% of your monthly budget.\nKSh ${"%.2f".format(remaining)} remaining in your budget."
+                        budgetInfo.setTextColor(android.graphics.Color.parseColor("#526174"))
                     }
                 } else {
                     budgetProgress.progress = 0
                     budgetInfo.text = "Set a monthly budget to track your spending progress."
+                    budgetInfo.setTextColor(android.graphics.Color.parseColor("#526174"))
                 }
             }
         }
@@ -331,12 +311,8 @@ class MainActivity : AppCompatActivity() {
             val amount = findViewById<EditText>(R.id.transactionAmount)
                 .text.toString().toDoubleOrNull()
 
-            val rawCategory = findViewById<EditText>(R.id.transactionCategory)
+            val category = findViewById<EditText>(R.id.transactionCategory)
                 .text.toString().trim()
-
-            val category = rawCategory.replaceFirstChar {
-                if (it.isLowerCase()) it.titlecase(Locale.getDefault()) else it.toString()
-            }
 
             if (amount == null || amount <= 0 || category.isEmpty()) {
                 Toast.makeText(this, "Enter a valid amount and category", Toast.LENGTH_SHORT).show()
