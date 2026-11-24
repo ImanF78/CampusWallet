@@ -1,21 +1,24 @@
-
+<!-- Root container: makes the whole screen scrollable so content fits on small devices -->
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#F3F6FA">
 
+    <!-- Main vertical layout that stacks all dashboard sections top to bottom -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
+        <!-- ===== HEADER: app title on the left, logout button on the right ===== -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
+            <!-- App name; weight of 1 pushes the logout button to the far right -->
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -25,6 +28,7 @@
                 android:textStyle="bold"
                 android:textColor="#17365D"/>
 
+            <!-- Logs the user out of the app -->
             <Button
                 android:id="@+id/logoutButton"
                 android:layout_width="wrap_content"
@@ -32,6 +36,9 @@
                 android:text="Logout"/>
         </LinearLayout>
 
+        <!-- ===== GREETING SECTION ===== -->
+
+        <!-- Personalised greeting; the text is set from code at runtime -->
         <TextView
             android:id="@+id/welcomeStudent"
             android:layout_width="match_parent"
@@ -42,6 +49,7 @@
             android:textColor="#17365D"
             android:layout_marginTop="20dp"/>
 
+        <!-- Short subtitle introducing the financial summary below -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -50,6 +58,9 @@
             android:layout_marginTop="5dp"
             android:layout_marginBottom="18dp"/>
 
+        <!-- ===== SUMMARY CARDS: income, expenses and balance ===== -->
+
+        <!-- Total income card (green theme); &#10; is a line break between label and amount -->
         <TextView
             android:id="@+id/incomeText"
             android:layout_width="match_parent"
@@ -62,6 +73,7 @@
             android:padding="18dp"
             android:layout_marginBottom="10dp"/>
 
+        <!-- Total expenses card (red theme) -->
         <TextView
             android:id="@+id/expenseText"
             android:layout_width="match_parent"
@@ -74,6 +86,7 @@
             android:padding="18dp"
             android:layout_marginBottom="10dp"/>
 
+        <!-- Available balance card (blue theme), slightly larger text to stand out -->
         <TextView
             android:id="@+id/balanceText"
             android:layout_width="match_parent"
@@ -86,6 +99,9 @@
             android:padding="18dp"
             android:layout_marginBottom="22dp"/>
 
+        <!-- ===== MONTHLY BUDGET SECTION ===== -->
+
+        <!-- Section heading -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -94,6 +110,7 @@
             android:textStyle="bold"
             android:textColor="#17365D"/>
 
+        <!-- Helper text explaining what the budget field is for -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -101,6 +118,7 @@
             android:textColor="#526174"
             android:layout_marginTop="5dp"/>
 
+        <!-- Input where the user types their budget amount (decimal numbers only) -->
         <EditText
             android:id="@+id/budgetInput"
             android:layout_width="match_parent"
@@ -109,6 +127,7 @@
             android:inputType="numberDecimal"
             android:padding="12dp"/>
 
+        <!-- Saves the entered budget -->
         <Button
             android:id="@+id/saveBudgetButton"
             android:layout_width="match_parent"
@@ -116,6 +135,7 @@
             android:text="Save Budget"
             android:backgroundTint="#17365D"/>
 
+        <!-- Horizontal progress bar showing how much of the budget has been spent (0 to 100%) -->
         <ProgressBar
             android:id="@+id/budgetProgress"
             style="?android:attr/progressBarStyleHorizontal"
@@ -125,6 +145,7 @@
             android:progress="0"
             android:layout_marginTop="16dp"/>
 
+        <!-- Text under the progress bar; updated from code with budget status or messages -->
         <TextView
             android:id="@+id/budgetInfo"
             android:layout_width="match_parent"
@@ -134,6 +155,9 @@
             android:layout_marginTop="8dp"
             android:layout_marginBottom="20dp"/>
 
+        <!-- ===== ADD TRANSACTION ===== -->
+
+        <!-- Opens the screen or dialog for recording a new income or expense -->
         <Button
             android:id="@+id/addTransactionButton"
             android:layout_width="match_parent"
@@ -141,6 +165,9 @@
             android:text="+ Add Income or Expense"
             android:backgroundTint="#17365D"/>
 
+        <!-- ===== TRANSACTION HISTORY SECTION ===== -->
+
+        <!-- Section heading -->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -151,6 +178,7 @@
             android:layout_marginTop="24dp"
             android:layout_marginBottom="10dp"/>
 
+        <!-- Displays the list of past transactions; shows a placeholder until some exist -->
         <TextView
             android:id="@+id/historyText"
             android:layout_width="match_parent"
