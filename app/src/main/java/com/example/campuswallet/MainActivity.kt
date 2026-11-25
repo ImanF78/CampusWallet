@@ -1,4 +1,3 @@
-
 package com.example.campuswallet
 
 import android.os.Bundle
@@ -11,19 +10,32 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.room.Room
 import java.util.concurrent.Executors
 
+/**
+ * Main entry point of the Campus Wallet app.
+ * Handles authentication (login/register), dashboard, budget tracking,
+ * and adding income/expense transactions.
+ */
 class MainActivity : AppCompatActivity() {
 
+    // Room database instance
     private lateinit var database: CampusWalletDatabase
+
+    // Background executor for database operations (keeps UI thread free)
     private val databaseExecutor = Executors.newSingleThreadExecutor()
 
+    // Currently logged-in user info
     private var currentUserId = -1
     private var currentUserName = ""
+
+    // Selected transaction type when adding a new entry ("Income" or "Expense")
     private var selectedType = "Expense"
 
+    // SharedPreferences for keeping the user logged in across app restarts
     private val sessionPrefs by lazy {
         getSharedPreferences("campus_wallet_session", MODE_PRIVATE)
     }
 
+    // SharedPreferences for storing each user's monthly budget
     private val budgetPrefs by lazy {
         getSharedPreferences("campus_wallet_budgets", MODE_PRIVATE)
     }
@@ -31,6 +43,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        // Initialize Room database with migration support
         database = Room.databaseBuilder(
             applicationContext,
             CampusWalletDatabase::class.java,
@@ -39,9 +52,11 @@ class MainActivity : AppCompatActivity() {
             .addMigrations(CampusWalletDatabase.MIGRATION_1_2)
             .build()
 
+        // Restore previous session if the user was already logged in
         currentUserId = sessionPrefs.getInt("user_id", -1)
         currentUserName = sessionPrefs.getString("user_name", "") ?: ""
 
+        // Navigate to the correct starting screen
         if (currentUserId != -1) {
             showDashboard()
         } else {
@@ -49,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Saves the logged-in user details to SharedPreferences */
     private fun saveSession(user: User) {
         currentUserId = user.id
         currentUserName = user.name
@@ -59,6 +75,7 @@ class MainActivity : AppCompatActivity() {
             .apply()
     }
 
+    /** Shows the welcome / onboarding screen */
     private fun showWelcome() {
         setContentView(R.layout.activity_main)
 
@@ -71,6 +88,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Shows the registration screen and handles new account creation */
     private fun showRegister() {
         setContentView(R.layout.activity_register)
 
@@ -85,6 +103,7 @@ class MainActivity : AppCompatActivity() {
             val password = findViewById<EditText>(R.id.studentPassword)
                 .text.toString()
 
+            // Basic validation
             if (name.isEmpty() || email.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Please complete all fields", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -100,6 +119,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Hash password with a unique salt
             val salt = PasswordHelper.createSalt()
             val hashedPassword = PasswordHelper.hashPassword(password, salt)
 
@@ -110,6 +130,7 @@ class MainActivity : AppCompatActivity() {
                 passwordSalt = salt
             )
 
+            // Insert user on a background thread
             databaseExecutor.execute {
                 val existingUser = database.userDao().getUserByEmail(email)
 
@@ -139,6 +160,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Shows the login screen and authenticates the user */
     private fun showLogin() {
         setContentView(R.layout.activity_login)
 
@@ -155,6 +177,7 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
+            // Verify credentials on a background thread
             databaseExecutor.execute {
                 val user = database.userDao().getUserByEmail(email)
 
@@ -181,19 +204,23 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Shows the main dashboard with balance, budget, and transaction history */
     private fun showDashboard() {
         setContentView(R.layout.activity_dashboard)
 
+        // Personalized greeting
         findViewById<TextView>(R.id.welcomeStudent).text =
             "Hello, $currentUserName!"
 
         val budgetInput = findViewById<EditText>(R.id.budgetInput)
         val savedBudget = budgetPrefs.getFloat("budget_$currentUserId", 0f).toDouble()
 
+        // Pre-fill previously saved budget if it exists
         if (savedBudget > 0) {
             budgetInput.setText(savedBudget.toString())
         }
 
+        // Save monthly budget
         findViewById<Button>(R.id.saveBudgetButton).setOnClickListener {
             val value = budgetInput.text.toString().toDoubleOrNull()
 
@@ -209,10 +236,12 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        // Navigate to add transaction screen
         findViewById<Button>(R.id.addTransactionButton).setOnClickListener {
             showTransaction()
         }
 
+        // Log out and clear session
         findViewById<Button>(R.id.logoutButton).setOnClickListener {
             sessionPrefs.edit().clear().apply()
             currentUserId = -1
@@ -221,9 +250,14 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, "You have logged out", Toast.LENGTH_SHORT).show()
         }
 
+        // Load latest financial data
         loadTransactions()
     }
 
+    /**
+     * Loads all transactions for the current user,
+     * calculates totals, updates the UI, and shows budget progress.
+     */
     private fun loadTransactions() {
         val userId = currentUserId
         val monthlyBudget = budgetPrefs.getFloat("budget_$userId", 0f).toDouble()
@@ -237,6 +271,7 @@ class MainActivity : AppCompatActivity() {
 
             val balance = totalIncome - totalExpenses
 
+            // Build transaction history text
             val history = if (transactions.isEmpty()) {
                 "No transactions yet. Add your first income or expense to get started."
             } else {
@@ -246,6 +281,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             runOnUiThread {
+                // Safety check in case the user logged out while data was loading
                 if (currentUserId != userId) return@runOnUiThread
 
                 findViewById<TextView>(R.id.incomeText).text =
@@ -262,6 +298,7 @@ class MainActivity : AppCompatActivity() {
                 val budgetProgress = findViewById<ProgressBar>(R.id.budgetProgress)
                 val budgetInfo = findViewById<TextView>(R.id.budgetInfo)
 
+                // Update budget progress bar and warning message
                 if (monthlyBudget > 0) {
                     val percentage = ((totalExpenses / monthlyBudget) * 100).toInt()
                     budgetProgress.progress = percentage.coerceIn(0, 100)
@@ -283,6 +320,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Shows the screen for adding a new income or expense transaction */
     private fun showTransaction() {
         setContentView(R.layout.activity_transaction)
 
@@ -291,9 +329,11 @@ class MainActivity : AppCompatActivity() {
         val incomeButton = findViewById<Button>(R.id.incomeOption)
         val expenseButton = findViewById<Button>(R.id.expenseOption)
 
+        // Default selection is Expense
         incomeButton.alpha = 0.6f
         expenseButton.alpha = 1f
 
+        // Toggle between Income and Expense
         incomeButton.setOnClickListener {
             selectedType = "Income"
             incomeButton.alpha = 1f
@@ -306,6 +346,7 @@ class MainActivity : AppCompatActivity() {
             incomeButton.alpha = 0.6f
         }
 
+        // Save the new transaction
         findViewById<Button>(R.id.submitTransaction).setOnClickListener {
 
             val amount = findViewById<EditText>(R.id.transactionAmount)
@@ -341,6 +382,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /** Clean up the background executor when the activity is destroyed */
     override fun onDestroy() {
         super.onDestroy()
         databaseExecutor.shutdown()
