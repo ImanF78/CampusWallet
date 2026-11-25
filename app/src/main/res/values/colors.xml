@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- Color resources for the app -->
 <resources>
+
+    <!-- Pure black (ARGB) -->
     <color name="black">#FF000000</color>
+
+    <!-- Pure white (ARGB) -->
     <color name="white">#FFFFFFFF</color>
+
+    <!-- Primary brand / campus blue -->
     <color name="campus_primary_blue">#17365D</color>
+
 </resources>
