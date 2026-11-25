@@ -232,13 +232,8 @@ class MainActivity : AppCompatActivity() {
             val transactions = database.transactionDao()
                 .getTransactionsForUser(userId)
 
-            val totalIncome = transactions
-                .filter { it.type == "Income" }
-                .sumOf { it.amount }
-
-            val totalExpenses = transactions
-                .filter { it.type == "Expense" }
-                .sumOf { it.amount }
+            val totalIncome = database.transactionDao().getTotalIncome(userId)
+            val totalExpenses = database.transactionDao().getTotalExpenses(userId)
 
             val balance = totalIncome - totalExpenses
 
@@ -271,12 +266,18 @@ class MainActivity : AppCompatActivity() {
                     val percentage = ((totalExpenses / monthlyBudget) * 100).toInt()
                     budgetProgress.progress = percentage.coerceIn(0, 100)
 
-                    budgetInfo.text =
-                        "You've used ${percentage}% of your monthly budget.\n" +
-                                "KSh ${"%.2f".format(monthlyBudget - totalExpenses)} remaining in your budget."
+                    val remaining = monthlyBudget - totalExpenses
+                    if (remaining < 0) {
+                        budgetInfo.text = "⚠️ Warning: You have exceeded your monthly budget by KSh ${"%.2f".format(-remaining)}!"
+                        budgetInfo.setTextColor(android.graphics.Color.RED)
+                    } else {
+                        budgetInfo.text = "You've used ${percentage}% of your monthly budget.\nKSh ${"%.2f".format(remaining)} remaining in your budget."
+                        budgetInfo.setTextColor(android.graphics.Color.parseColor("#526174"))
+                    }
                 } else {
                     budgetProgress.progress = 0
                     budgetInfo.text = "Set a monthly budget to track your spending progress."
+                    budgetInfo.setTextColor(android.graphics.Color.parseColor("#526174"))
                 }
             }
         }

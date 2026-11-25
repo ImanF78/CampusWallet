@@ -6,9 +6,12 @@ import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
+/**
+ * Main Room Database configuration for CampusWallet application.
+ */
 @Database(
     entities = [Transaction::class, User::class],
-    version = 2,
+    version = 3,
     exportSchema = false
 )
 abstract class CampusWalletDatabase : RoomDatabase() {
@@ -18,6 +21,8 @@ abstract class CampusWalletDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
 
     companion object {
+        const val DATABASE_NAME = "campus_wallet_database"
+
         val MIGRATION_1_2 = object : Migration(1, 2) {
             override fun migrate(db: SupportSQLiteDatabase) {
 
@@ -43,6 +48,14 @@ abstract class CampusWalletDatabase : RoomDatabase() {
 
                 db.execSQL(
                     "CREATE INDEX IF NOT EXISTS index_transactions_userId ON transactions(userId)"
+                )
+            }
+        }
+
+        val MIGRATION_2_3 = object : Migration(2, 3) {
+            override fun migrate(db: SupportSQLiteDatabase) {
+                db.execSQL(
+                    "ALTER TABLE transactions ADD COLUMN timestamp INTEGER NOT NULL DEFAULT 0"
                 )
             }
         }
